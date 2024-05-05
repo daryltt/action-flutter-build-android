@@ -1,4 +1,4 @@
-name: flutter-build-android
+name: flutter-build-android-daryltt
 description: Builds an apk or appbundle
 branding:
   icon: box
@@ -16,6 +16,10 @@ inputs:
   keystore-password:
     description: "The password for the playstore key used to sign the app"
     required: true
+  key-alias:
+    description: "The alias of the key the keystore"
+    default: "upload"
+    required: false
 
 runs:
   using: "composite"
@@ -63,7 +67,7 @@ runs:
       run: |
         echo "$KEYSTORE" | base64 --decode > app/keystore.jks
         echo "storeFile=keystore.jks" >> key.properties
-        echo "keyAlias=upload" >> key.properties
+        echo "keyAlias=${{ inputs.key-alias }}" >> key.properties
         echo "storePassword=$KEYSTORE_PASSWORD" >> key.properties
         echo "keyPassword=$KEYSTORE_PASSWORD" >> key.properties
       env:
